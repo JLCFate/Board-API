@@ -7,6 +7,7 @@ const pool = new Pool({
   password: process.env.POSTGRES_PASSWORD,
   port: 5432,
 })
+
 const queryAll = (response, status) => {
   pool.query('SELECT * FROM users ', (error, results) => {
     if (error) {
@@ -67,10 +68,23 @@ const getUsers = (request, response) => {
       queryAll(response, 200)
     })
   }  
+
+  const checkUsers = (request, response) => {
+    const Oldaddress = request.params.address
+    pool.query('SELECT * FROM users WHERE address =$1', [Oldaddress], (error, results) => {
+      if (error) {
+        throw error
+      }
+      const status = results.rows.length > 0 ? 200 : 400
+      response.status(status).json(results.rows)
+    })
+  }
+  
   module.exports = {
     getUsers,
     createUser,
     updateUser,
     deleteUser,
     getLogs,
+    checkUsers,
   }
