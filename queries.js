@@ -17,6 +17,9 @@ const queryAll = (response, status) => {
 
 const queryOne = (request, response) => {
 	const { address } = request.params.address;
+
+	console.log(address);
+
 	pool.query("SELECT * FROM users WHERE address = $1", [address], (error, results) => {
 		if (error) {
 			throw error;
@@ -40,8 +43,6 @@ const getUsers = (request, response) => {
 
 const createUser = (request, response) => {
 	const { name, address } = request.body;
-
-	console.log("Hello");
 
 	pool.query("INSERT INTO users (name, address, authorized, awaiting) VALUES ($1, $2, false, true) RETURNING *", [name, address], (error, results) => {
 		if (error) {
