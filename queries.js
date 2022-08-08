@@ -15,6 +15,16 @@ const queryAll = (response, status) => {
 	});
 };
 
+const queryOne = (response, status) => {
+	const { address } = request.params.address;
+	pool.query("SELECT * FROM users WHERE address = $1", [address], (error, results) => {
+		if (error) {
+			throw error;
+		}
+		response.status(status).json(results.rows);
+	});
+};
+
 const getLogs = (request, response) => {
 	pool.query("SELECT * FROM logs ", (error, results) => {
 		if (error) {
@@ -31,7 +41,18 @@ const getUsers = (request, response) => {
 const createUser = (request, response) => {
 	const { name, address } = request.body;
 
-	pool.query("INSERT INTO users (name, address) VALUES ($1, $2) RETURNING *", [name, address], (error, results) => {
+	pool.query("INSERT INTO users (name, address, authorized, awaiting) VALUES ($1, $2, false, true) RETURNING *", [name, address], (error, results) => {
+		if (error) {
+			throw error;
+		}
+		queryAll(response, 201);
+	});
+};
+
+const addLogs = (request, response) => {
+	const { name, address, date, type } = request.body;
+
+	pool.query("INSERT INTO logs (name, address, date, type) VALUES ($1, $2, $3, $4) RETURNING *", [name, address, date, type], (error, results) => {
 		if (error) {
 			throw error;
 		}
@@ -91,6 +112,8 @@ module.exports = {
 	updateUser,
 	deleteUser,
 	getLogs,
+	queryOne,
+	addLogs,
 	checkUsers,
 	updateAuthorized,
 };
