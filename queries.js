@@ -21,7 +21,7 @@ const queryOne = (request, response) => {
 		if (error) {
 			throw error;
 		}
-		response.status(status).json(results.rows);
+		response.status(200).json(results.rows);
 	});
 };
 
