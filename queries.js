@@ -16,9 +16,7 @@ const queryAll = (response, status) => {
 };
 
 const queryOne = (request, response) => {
-	const { address } = request.params.address;
-
-	console.log(address);
+	const address = request.params.address;
 
 	pool.query("SELECT * FROM users WHERE address = $1", [address], (error, results) => {
 		if (error) {
