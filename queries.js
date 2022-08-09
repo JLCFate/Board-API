@@ -11,7 +11,7 @@ const pool = new Pool({
 });
 
 const queryAll = (response, status) => {
-	pool.query("SELECT * FROM users WHERE NOT name='WebSite' AND NOT name='Controller'", (error, results) => {
+	pool.query("SELECT * FROM users WHERE NOT name='Website' AND NOT name='Controller'", (error, results) => {
 		if (error) throw error;
 		response.status(status).json(results.rows);
 	});
