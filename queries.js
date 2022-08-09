@@ -19,16 +19,10 @@ const queryAll = (response, status) => {
 
 const queryOne = (request, response) => {
 	const address = request.params.address;
-	const requestAddress = request.get("X-Address");
 
-	pool.query("SELECT * FROM users WHERE address = $1", [requestAddress], (err, res) => {
-		if (err) throw err;
-		if (res.rows.length > 0) {
-			pool.query("SELECT * FROM users WHERE address = $1", [address], (error, results) => {
-				if (error) throw error;
-				response.status(200).json(results.rows);
-			});
-		} else response.status(401).send();
+	pool.query("SELECT * FROM users WHERE address = $1", [address], (error, results) => {
+		if (error) throw error;
+		response.status(200).json(results.rows);
 	});
 };
 
