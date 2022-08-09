@@ -116,8 +116,8 @@ const updateUser = (request, response) => {
 };
 
 const updateAuthorized = (request, response) => {
-	const { authorized, awaiting } = requrest.body;
-	const address = requrest.params.address;
+	const { authorized, awaiting } = request.body;
+	const address = request.params.address;
 	const requestAddress = request.get("X-Address");
 
 	pool.query("SELECT * FROM users WHERE address = $1", [requestAddress], (err, res) => {
