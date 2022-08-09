@@ -77,20 +77,10 @@ const addDevToken = (request, response) => {
 
 const createUser = (request, response) => {
 	const { name, address } = request.body;
-	const requestAddress = request.get("X-Address");
 
-	pool.query("SELECT * FROM users WHERE address = $1", [requestAddress], (err, res) => {
-		if (err) throw err;
-		if (res.rows.length > 0) {
-			pool.query(
-				"INSERT INTO users (name, address, authorized, awaiting) VALUES ($1, $2, false, true) RETURNING *",
-				[name, address],
-				(error, results) => {
-					if (error) throw error;
-					queryAll(response, 201);
-				}
-			);
-		} else response.status(401).send();
+	pool.query("INSERT INTO users (name, address, authorized, awaiting) VALUES ($1, $2, false, true) RETURNING *", [name, address], (error, results) => {
+		if (error) throw error;
+		queryAll(response, 201);
 	});
 };
 
