@@ -107,6 +107,9 @@ const updateUser = (request, response) => {
 	pool.query("SELECT * FROM users WHERE address = $1", [requestAddress], (err, res) => {
 		if (err) throw err;
 		if (res.rows.length > 0) {
+			pool.query("UPDATE logs SET name = $1, address = $2 WHERE address = $3", [name, address, Oldaddress], (error, results) => {
+				if (error) throw error;
+			});
 			pool.query("UPDATE users SET name = $1, address = $2 WHERE address = $3", [name, address, Oldaddress], (error, results) => {
 				if (error) throw error;
 				queryAll(response, 200);
