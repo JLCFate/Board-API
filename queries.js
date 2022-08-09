@@ -1,6 +1,10 @@
 require("dotenv").config();
 const Pool = require("pg").Pool;
 
+const capitalizeFirstLetter = (string) => {
+	return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 const pool = new Pool({
 	connectionString: process.env.DATABASE_URL,
 	ssl: { rejectUnauthorized: false },
@@ -55,6 +59,7 @@ const getUsers = (request, response) => {
 
 const addDevToken = (request, response) => {
 	const address = request.params.address;
+	const type = request.params.type;
 	const requestAddress = request.get("X-Address");
 
 	pool.query("SELECT * FROM users WHERE address = $1 AND dev = true", [requestAddress], (err, res) => {
@@ -63,8 +68,8 @@ const addDevToken = (request, response) => {
 			pool.query("SELECT * FROM users WHERE address = $1", [address], (er, re) => {
 				if (re.rows.length === 0)
 					pool.query(
-						"INSERT INTO users (name, address, authorized, awaiting) VALUES ('WebSite', $1, true, false) RETURNING *",
-						[address],
+						"INSERT INTO users (name, address, authorized, awaiting) VALUES ($1, $2, true, false) RETURNING *",
+						[capitalizeFirstLetter(type), address],
 						(error, results) => {
 							if (error) throw error;
 							response.status(200).send();

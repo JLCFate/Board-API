@@ -21,7 +21,7 @@ app.get("/users/:address", db.checkUsers);
 app.get("/users", db.getUsers);
 app.get("/logs", db.getLogs);
 
-app.post("/token/:address", db.addDevToken);
+app.post("/token/:type/:address", db.addDevToken);
 app.post("/users", db.createUser);
 app.post("/logs", db.addLogs);
 
