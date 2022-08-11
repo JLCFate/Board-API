@@ -30,6 +30,12 @@ app.put("/users/:address", db.updateUser);
 
 app.delete("/users/:address", db.deleteUser);
 
+// iOS handler
+
+app.post("/ios/user", db.askForAccess);
+app.get("/ios/user", db.checkiOSAccess);
+app.get("/ios/gate", db.sendOpenGateImpulse);
+
 app.listen(port, () => {
 	console.log(`App running on port ${port}.`);
 });
