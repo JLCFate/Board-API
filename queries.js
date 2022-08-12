@@ -199,11 +199,13 @@ const sendOpenGateImpulse = (request, response) => {
 			console.log(object);
 
 			const socket = await io(process.env.SOCKET_URL, {
-				"X-Address": requestAddress,
-				"X-Name": "iPhone",
+				extraHeaders: {
+					"X-Address": requestAddress,
+					"X-Name": res.rows[0].name,
+				},
 			});
 
-			socket.emit("open", JSON.stringify(object));
+			socket.emit("open", object);
 
 			socket.on("recieved", () => {
 				socket.disconnect();
