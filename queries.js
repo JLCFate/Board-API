@@ -191,6 +191,8 @@ const sendOpenGateImpulse = (request, response) => {
 	const requestAddress = request.get("X-Address");
 	const gate = request.get("X-Gate");
 
+	console.log(requestAddress, gate);
+
 	pool.query("SELECT * FROM users WHERE address = $1 AND authorized = true", [requestAddress], async (err, res) => {
 		if (err) throw err;
 		if (res.rows.length > 0) {
