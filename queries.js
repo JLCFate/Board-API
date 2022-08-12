@@ -197,8 +197,6 @@ const sendOpenGateImpulse = (request, response) => {
 			let object = { user_mac: requestAddress, gate: gate };
 			const gateName = gate === "front" ? "przednia" : "tylnia";
 
-			response.status(200).json(`Brama ${gateName} rozpoczeła otwieranie`);
-
 			const socket = await io(process.env.SOCKET_URL, {
 				"X-Address": requestAddress,
 				"X-Name": res.rows[0].name,
