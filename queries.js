@@ -133,8 +133,6 @@ const askForAccess = (request, response) => {
 const checkiOSAccess = (request, response) => {
 	const requestAddress = request.get("X-Address");
 
-	console.log(requestAddress);
-
 	pool.query("SELECT * FROM users WHERE address = $1 AND authorized = true", [requestAddress], (err, res) => {
 		if (res.rows.length > 0) {
 			response.status(200).json("Authorized");
@@ -192,8 +190,6 @@ const checkUsers = (request, response) => {
 const sendOpenGateImpulse = (request, response) => {
 	const requestAddress = request.get("X-Address");
 	const gate = request.get("X-Gate");
-
-	console.log(requestAddress);
 
 	pool.query("SELECT * FROM users WHERE address = $1 AND authorized = true", [requestAddress], async (err, res) => {
 		if (err) throw err;
