@@ -196,7 +196,6 @@ const sendOpenGateImpulse = (request, response) => {
 		if (res.rows.length > 0) {
 			let object = { user_mac: requestAddress, gate: gate };
 			const gateName = gate === "front" ? "przednia" : "tylnia";
-			console.log(object);
 
 			const socket = await io(process.env.SOCKET_URL, {
 				extraHeaders: {
@@ -205,7 +204,7 @@ const sendOpenGateImpulse = (request, response) => {
 				},
 			});
 
-			socket.emit("open", object);
+			socket.emit("open", JSON.stringify(object));
 
 			socket.on("recieved", () => {
 				socket.disconnect();
