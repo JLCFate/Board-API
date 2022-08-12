@@ -1,5 +1,6 @@
 require("dotenv").config();
 const uuid = require("uuid");
+const io = require("socket.io-client");
 const Pool = require("pg").Pool;
 
 const capitalizeFirstLetter = (string) => {
